@@ -5,11 +5,12 @@ import re
 import functools
 import operator
 from pathlib import Path
+from collections import defaultdict
 
 
 class BotCommands:
     def __init__(self):
-        pass
+        self._graph = defaultdict(list)
 
     def commandControl(self, cmd):
         cmd = str(cmd)
@@ -119,7 +120,7 @@ class BotCommands:
         #     print("root {0}, files {1}".format(root, files))
         # return results
         # paths = glob.glob(
-        #     "C:/Users/Kelchi/Documents/Programming/Python/scripts/*.py")
+        #     "C:/path/file/Documents/Programming/Python/scripts/*.py")
         if srch_path == 'C:/':  # traverses top-down order starting from the C: directory
             return self._fileFind(fname, srch_path)
         else:
