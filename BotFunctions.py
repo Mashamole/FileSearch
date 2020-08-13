@@ -79,6 +79,8 @@ class BotCommands:
         # # joins path using '/' to create the path
         arry_result = os.listdir(f)
         print(arry_result)
+        trackPath = []
+        trackPath.append(srch_path)
         for f in arry_result:
             if f[0] != '$':
                 if os.path.isdir(f):
