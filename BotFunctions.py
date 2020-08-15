@@ -63,13 +63,14 @@ class BotCommands:
             return None
 
     def _fileFind(self, fname, srch_path):
+        # visited = [False] * (max(self._graph)+1)
         if fname in os.listdir(srch_path):
             return srch_path + fname
 
         print(srch_path)
         f = os.chdir(srch_path)
 
-        print("Current directory files:", os.listdir(f), "\n\n")
+        # print("Current directory files:", os.listdir(f), "\n\n")
         # curr_dir = os.getcwd()
         # stringifyPath = str(curr_dir)
         # # splits list by "//" character
@@ -82,13 +83,22 @@ class BotCommands:
         print(arry_result)
         trackPath = []
         trackPath.append(srch_path)
+        dirIdx = 0  # change idx to string type (use "C:/" as key for graph)
+        # add srch_path argument to graph
+        self._graph[dirIdx].append(srch_path)
+
+        # check if file is in the first srch_path run
+        if fname in self._graph[dirIdx]:
+            pass
         for f in arry_result:
             if f[0] != '$':
-                if os.path.isdir(f):
+                if os.path.isdir(f):  # check
+
+                    self._graph[dirIdx]
 
                     os.chdir()
         path = delimiter.join(arry_result)
-        print(path)
+        # print(path)
         # assert os.path.isdir(path)
 
         # print(path)
@@ -137,7 +147,7 @@ class BotCommands:
             path = delimiter.join(arry_result)
             assert os.path.isdir(path)
 
-            print(path)
+            # print(path)
             os.chdir(path)
             # checks if argument fname is in the directory of the argument path
             checkFile = "true" if fname in os.listdir() else "false"
