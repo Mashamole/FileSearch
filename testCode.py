@@ -34,26 +34,30 @@ def testSrchFile(fname, srch_path):
     # add srch_path argument to graph
 
     graph_[dirIdx] = arry_result
-    print(graph_)
+    print(graph_[dirIdx])
     # check if file is in the first srch_path run
 
-    if fname in graph[dirIdx]:
+    if fname in graph_[dirIdx]:
+        print("file exist")
         keys = graph_.keys()
         # assign the key path for path concatenation in next lines
         keyPath = srch_path if srch_path in keys else " "
-        return keyPath + fname
+        if keyPath[len(keyPath)-1] != '/':
+            return keyPath + '/' + fname
+        else:
+            return keyPath + fname
     for f in arry_result:
         if f[0] != '$':
             if os.path.isdir(f):  # check
                 pass
-                # recurPath = srch_path + delimiter + f
-                # testSrchFile(fname, recurPath)
+                recurPath = srch_path + delimiter + f
+                testSrchFile(fname, recurPath)
                 # graph[dirIdx]
 
                 # os.chdir()
 
 
-x = testSrchFile("server.py", "C:/")
+x = testSrchFile("Apps", "C:/")
 print(x)
 
 # v = "C:/Apps/dirFile"
