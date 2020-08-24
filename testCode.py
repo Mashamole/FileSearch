@@ -16,13 +16,6 @@ graph = defaultdict(list)
 graph_ = defaultdict(list)
 visited = defaultdict(bool)
 searched = defaultdict(bool)
-# Test data for directories and file path
-graph["C:/"].append("Apps")
-graph["C:/"].append("test1.py")
-graph["C:/Apps"].append("dirFile")
-graph["C:/Apps"].append("apptest.cpp")
-graph["C:/Apps/dirFile"].append("word.dox")
-graph["C:/Apps/dirFile"].append("word2.dox")
 
 # graph[2].append(10)
 
@@ -82,10 +75,11 @@ def testSrchFileUtil(fname, srch_path, visited):
                 return testSrchFileUtil(fname, recurPath, visited)
 
             if graph_[dirIdx] == [] or visited[dirIdx] != True:
-                print(f)
+                print("Checking f "+f)
                 p = srch_path.split("/")
                 p.pop()
-                pth = p.join()
+                pth = delimiter.join(p)
+
                 return testSrchFileUtil(fname, pth, visited)
 
                 # graph[dirIdx]
@@ -93,8 +87,8 @@ def testSrchFileUtil(fname, srch_path, visited):
                 # os.chdir()
 
 
-pth = testSrchFile("AUMIDs", "C:/")
-print(type(pth))
+# pth = testSrchFile("AUMIDs", "C:/")
+# print(type(pth))
 
 
 def revertDir(pth):
@@ -106,16 +100,34 @@ def revertDir(pth):
     return pth
 
 
-# v = "C:/Apps/dirFile"
-# x = revertDir(v)
-# os.chdir(x)
-# print(os.listdir())
+# Test data for directories and file path
+graph["C:/"].append("Apps")
+graph["C:/"].append("test1.py")
+graph["C:/Apps"].append("334CH")
+graph["C:/Apps"].append("7VDFT")
+graph["C:/Apps/dirFile"].append("word.dox")
+graph["C:/Apps/dirFile"].append("word2.dox")
+
+
+v = "C:/Apps/'334CH'"
+npth = ""
+searched[v] = True
+# v = "C:/Apps/de"
+if searched[v] == True:
+    x = revertDir(v)
+os.chdir(x)
+print(os.listdir())
+if graph[v] == [] or searched[v] == True:
+    print("file not found")
+v = "C:/Apps/334CH/dell"
+
+
 # searched[v] = False
 # fname = "word.dox"
 # keys = graph.keys()
 # if searched[v] == False:
 #     print("false")
-# # assign the key path for path concatenation in next lines
+# assign the key path for path concatenation in next lines
 # keyPath = v if v in keys else " "
 # for i in graph[v]:
 #     print(i)
