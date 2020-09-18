@@ -51,6 +51,15 @@ def testSrchFileUtil(fname, srch_path, visited):
     graph_[dirIdx] = arry_result
     print("Graph of dir idx ", graph_[dirIdx])
     # check if file is in the first srch_path run
+    # print("visited paths 2", visited)  # displays most recent visited paths
+
+    for checkFile in [i for i in arry_result if os.path.isdir(
+            srch_path + delimiter + i)]:
+        # ( ***) fix this part
+        if visited[srch_path + delimiter + checkFile] != True:
+            print("VISITED: ", checkFile)
+        # print("checkfiles: ", srch_path + delimiter + checkFile)
+    # if os.path.isdir(srch_path + delimiter + checkFile):
 
     if fname in graph_[dirIdx]:  # checks if file is in root directory
         print("file exist")
@@ -61,12 +70,12 @@ def testSrchFileUtil(fname, srch_path, visited):
         keyPath = srch_path if srch_path in keys else " "
         print("Key Path: ", keyPath)
         if keyPath[len(keyPath)-1] != '/':
-            print("did run 1st return")
-            print(keyPath + '/' + fname)
+            # print("did run 1st return")
+            # print(keyPath + '/' + fname)
             return keyPath + '/' + fname
         else:
-            print("did run 2nd return ")
-            print(keyPath + fname)
+            # print("did run 2nd return ")
+            # print(keyPath + fname)
             return keyPath + fname
 
     if graph_[srch_path] == []:  # revert back a dir if visited/empty
@@ -75,21 +84,33 @@ def testSrchFileUtil(fname, srch_path, visited):
         srch_path = revertDir(srch_path)
         p = os.chdir(srch_path)
         arry_result = os.listdir(p)
-    print("The path of call: ", srch_path)
+    # print("The path of call: ", srch_path)
+    # print("array result: ", arry_result)
+    lastFileInDir = arry_result[len(arry_result)-1]
     for f in arry_result:  # traverse through list of files in path
+        checkpth = srch_path + delimiter + f
+
+        if visited[checkpth] == True:
+            continue
         if f[0] != '$':
-            checkpth = srch_path + delimiter + f
-            print("checking path ", srch_path)
+            # checkpth = srch_path + delimiter + f
+            # print("checking path ", srch_path)
             # FIX infinite loop, make call on next dir
+            # if f == lastFileInDir:
+            #     srch_path = revertDir(srch_path)
+
             if visited[checkpth] != True:
                 # check if file is a dir
                 if os.path.isdir(f):
                     # pass
                     if srch_path[len(srch_path)-1] != '/':  # add delimiter for paths
                         recurPath = srch_path + delimiter + f
+                    # elif f == lastFileInDir:
+                    #     srch_path = revertDir(srch_path)
                     else:
                         recurPath = srch_path + f
-                    print("recurse path: ", recurPath)
+                    # print("recurse path: ", recurPath)
+                    # print("visited paths", visited)
 
                     # find way to backtrack dirs
                     return testSrchFileUtil(fname, recurPath, visited)
@@ -109,7 +130,6 @@ def testSrchFileUtil(fname, srch_path, visited):
 
 pth = testSrchFile("AUMIDs", "C:/")
 print(type(pth))
-
 
 # Test data for directories and file path
 # graph["C:/"].append("Apps")
